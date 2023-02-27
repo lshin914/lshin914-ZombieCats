@@ -14,7 +14,6 @@ public class Mouse extends Creature {
     }
 
     public void step() {
-
         // randomly changes direction 20% of the time
         // random number out 0, 1, 2, 3, and 4, if 4 turn
         int rand20 = rand.nextInt(5);
