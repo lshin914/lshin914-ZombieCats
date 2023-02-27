@@ -4,6 +4,8 @@ import java.lang.Math;
 public class Cat extends Creature {
     private int roundsCat = 0;
     private int roundsSinceLastEaten = 0;
+    private int xEdge = 0;
+    private int yEdge = 0;
 
     public Cat(int x, int y, City cty, Random rnd) {
         // parent constructor
@@ -25,12 +27,58 @@ public class Cat extends Creature {
             setDir(randDir);
         } 
 
-        // move forward two steps
-        int xPos = (getX()+ (stepLen * dirX[getDir()]));
-        int yPos = (getY()+ (stepLen * dirY[getDir()]));
-
-        // set cat's new position
-        setGridPoint(xPos, yPos);
+        // TORUS
+        // if x-value is zero and we are moving west, then set x-value to 80 and continue moving west
+        if (getX() == 0 && getDir() == 3) {
+            xEdge = 79;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        else if (getX() == 1 && getDir() == 3) {
+            xEdge = 80;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        // if x-value is 80 and we are moving east, then set x-value to 0 and continue moving east
+        else if (getX() == 80 && getDir() == 1) {
+            xEdge = 1;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        else if (getX() == 79 && getDir() == 1) {
+            xEdge = 0;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        // if y-value is zero and we are moving north, set y-value to 80 and continue moving north
+        else if (getY() == 0 && getDir() == 0) {
+            xEdge = getX();
+            yEdge = 79;
+            setGridPoint(xEdge, yEdge);
+        }
+        else if (getY() == 1 && getDir() == 0) {
+            xEdge = getX();
+            yEdge = 80;
+            setGridPoint(xEdge, yEdge);
+        }
+        // if y-value is 80 and we are moving south, set y-value to 0 and continue moving south
+        else if (getY() == 80 && getDir() == 2) {
+            xEdge = getX();
+            yEdge = 1;
+            setGridPoint(xEdge, yEdge);
+        }
+        else if (getY() == 79 && getDir() == 2) {
+            xEdge = getX();
+            yEdge = 0;
+            setGridPoint(xEdge, yEdge);
+        }
+        // move forward two steps as normal
+        else {
+            int xPos = (getX()+ (stepLen * dirX[getDir()]));
+            int yPos = (getY()+ (stepLen * dirY[getDir()]));
+            // set cat's new position
+            setGridPoint(xPos, yPos);
+        }
 
         roundsCat++;
         roundsSinceLastEaten++;

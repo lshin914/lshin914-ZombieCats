@@ -2,6 +2,8 @@ import java.util.Random;
 
 public class Mouse extends Creature {
     private int roundsMouse = 0;
+    private int xEdge = 0;
+    private int yEdge = 0;
 
     // constructor
     public Mouse(int x, int y, City cty, Random rnd) {
@@ -22,12 +24,38 @@ public class Mouse extends Creature {
             setDir(randDir);
         }
 
+        // TORUS
+        // if x-value is zero and we are moving west, then set x-value to 80 and continue moving west
+        if (getX() == 0 && getDir() == 3) {
+            xEdge = 80;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        // if x-value is 80 and we are moving east, then set x-value to 0 and continue moving east
+        else if (getX() == 80 && getDir() == 1) {
+            xEdge = 0;
+            yEdge = getY();
+            setGridPoint(xEdge, yEdge);
+        }
+        // if y-value is zero and we are moving north, set y-value to 80 and continue moving north
+        else if (getY() == 0 && getDir() == 0) {
+            xEdge = getX();
+            yEdge = 80;
+            setGridPoint(xEdge, yEdge);
+        }
+        // if y-value is 80 and we are moving south, set y-value to 0 and continue moving south
+        else if (getY() == 80 && getDir() == 2) {
+            xEdge = getX();
+            yEdge = 0;
+            setGridPoint(xEdge, yEdge);
+        }
         // move forward one step as normal
-        int xPos = (getX()+ (stepLen * dirX[getDir()]));
-        int yPos = (getY()+ (stepLen * dirY[getDir()]));
-
-        // set mouse's new position
-        setGridPoint(xPos, yPos);
+        else {
+            int xPos = (getX()+ (stepLen * dirX[getDir()]));
+            int yPos = (getY()+ (stepLen * dirY[getDir()]));
+            // set mouse's new position
+            setGridPoint(xPos, yPos);
+        }
 
         // increment this round
         roundsMouse++;
