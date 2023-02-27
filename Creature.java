@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Creature {
+abstract class Creature {
 
     
     // Note, that output should be in (x,y) format as
@@ -8,14 +8,14 @@ public class Creature {
 
 
     // dir: 0=North, 1=East, 2=South, 3=West.
-    // 
-    //
-    //
-    //               N (r-1,c+0)
-    //               0
-    //(r+0,c-1) W 3 [ ]  1 E (r+0,c+1)
-    //               2
-    //               S (r+1,c+0)
+    // 0    1  2  3  4  5  6  7  8 
+    // 1
+    // 2
+    // 3             N (r-1,c+0)
+    // 4             0
+    //(r+0,c-1) W 3 [ ] 1 E (r+0,c+1)
+    // 5             2
+    // 6             S (r+1,c+0)
     //
     //
     // 
@@ -37,14 +37,14 @@ public class Creature {
 
 
     //Point Colors -- handy contests to use to make your code more readiable
-    public final static char LAB_BLACK='k';
-    public final static char LAB_BLUE='b';
-    public final static char LAB_RED='r';
-    public final static char LAB_YELLOW='y';
+    public final static char LAB_BLACK='k'; // zombies that are chasing are black
+    public final static char LAB_BLUE='b'; // mice are blue
+    public final static char LAB_RED='r'; // normal zombies are red
+    public final static char LAB_YELLOW='y'; // normal cats are yellow
     public final static char LAB_ORANGE='o';
     public final static char LAB_PINK='p';
     public final static char LAB_MAGENTA='m';
-    public final static char LAB_CYAN='c';
+    public final static char LAB_CYAN='c'; // cats chasing mice are cyan
     public final static char LAB_GREEN='g';
     public final static char LAB_GRAY='e';
 
@@ -77,9 +77,13 @@ public class Creature {
         point = new GridPoint(x,y);
         city = cty;
         rand = rnd;
+        // default color is gray
         lab = LAB_GRAY;
+        // randomly generate number from 0 - 3
         dir = rand.nextInt(NUM_DIRS);
+        // alive at first
         dead= false;
+        // default take one step (does not skip steps)
         stepLen=1;
     }
 
@@ -93,9 +97,14 @@ public class Creature {
     public int getX(){
         return point.x;
     }
+    
     public GridPoint getGridPoint(){
         return new GridPoint(point); //return a copy to preseve
                                      //encapsulation
+    }
+    public void setGridPoint(int x, int y) {
+        this.point.x = x;
+        this.point.y = y;
     }
     
     public char getLab(){
@@ -121,8 +130,9 @@ public class Creature {
 
     
     //TODO: Methods you may want complete here or in a child class, depending on your design
-    public void step(){} 
-    public void takeAction(){}
+    abstract void step();
+        // move forward one step based on direction
+    abstract void takeAction();
 
 
     

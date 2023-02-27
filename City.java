@@ -60,7 +60,6 @@ public class City{
     }
     
     public void addCat(){
-        
         creaturesToAdd.add(new Cat(rand.nextInt(HEIGHT),rand.nextInt(WIDTH),this,rand));
     }
     
